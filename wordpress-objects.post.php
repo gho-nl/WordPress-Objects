@@ -108,7 +108,8 @@ class Post {
 	public function get_parent() {
 
 		if ( $this->_post->post_parent ) {
-			return new Post( $this->_post->post_parent );
+			$class = get_called_class();
+			return new $class( $this->_post->post_parent );
 		}
 
 		return null;
