@@ -120,7 +120,18 @@ class Post {
 	 * @return StdClass[]
 	 */
 	public function get_children() {
-		return get_children( 'post_parent=' . $this->get_id() );
+
+		$children = get_children( 'post_parent=' . $this->get_id() );
+
+		if ( is_array($children) ) {
+			$class = get_called_class();
+
+			return array_map( function( $post ) use ( $class ) {
+				return $class::get( $post->ID );
+			}, $children );
+		}
+
+		return array();
 	}
 
 	/**
